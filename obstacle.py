@@ -1,6 +1,6 @@
 from settings import *
 from map import *
-from life import Life
+from gameui import Life
 import pygame
 import time
 

@@ -1,6 +1,6 @@
 from settings import *
 from map import *
-from life import Life
+from gameui import Life
 import pygame
 
 class Collectibles:
@@ -10,7 +10,7 @@ class Collectibles:
         self.size = (TILE_WIDTH, TILE_HEIGHT)
         self.x = SCREEN_OFFSET/2 + x * TILE_WIDTH
         self.y = y * TILE_HEIGHT + int(SCREEN_HEIGHT/4)
-        self.speed = 2
+        self.speed = 5
 
         self.collectible_type_weights = (0.8, 0.2)
         self.collectible_type_array = ['coin', 'heart']

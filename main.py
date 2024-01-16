@@ -4,7 +4,7 @@ from pygame.locals import *
 from settings import *
 from road import Road
 from map import *
-from life import Life
+from gameui import Life
 from collectible import Collectibles
 from obstacle import Obstacle
 from player import Player
