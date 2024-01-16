@@ -1,5 +1,6 @@
 from settings import *
 from map import *
+from life import Life
 import pygame
 import time
 
@@ -8,10 +9,10 @@ class Obstacle():
         self.game = game
         self.mini_map = mini_map
         self.size = (TILE_WIDTH, TILE_HEIGHT)
-        self.x = x * TILE_WIDTH
-        self.y = SCREEN_HEIGHT - TILE_HEIGHT * 3
+        self.x = SCREEN_OFFSET + x * TILE_WIDTH
+        self.y = SCREEN_HEIGHT - TILE_HEIGHT * 4
         
-        self.speed = 2
+        self.speed = 5
 
         self.frame_count = 0
 
@@ -26,31 +27,39 @@ class Obstacle():
         img = pygame.image.load('assets/rat/' + self.images[self.sprite_index])
         img_rect = img.get_rect()
 
-        if self.x == 535.3333333333334:
-            perspective_factor = 0.2
-        elif self.x == 0.0:
-            perspective_factor = -0.2
+        if self.x == 535.3333333333334 + SCREEN_OFFSET:
+            perspective_factor = 0.4 
+        elif self.x == 0.0 + SCREEN_OFFSET:
+            perspective_factor = -0.4
         else:
             perspective_factor = 0.2
 
         x_offset = (self.y / SCREEN_HEIGHT) * (SCREEN_WIDTH / 2) * perspective_factor
         adjusted_x = self.x + x_offset
 
-        if self.x == 535.3333333333334:
-            img_rect.topright = (adjusted_x + TILE_WIDTH / 2 - 50, self.y + TILE_HEIGHT / 2)
-        elif self.x == 0.0:
-            img_rect.topleft = (adjusted_x + TILE_WIDTH / 2 + 50, self.y + TILE_HEIGHT / 2)
+        if self.x == 535.3333333333334 + SCREEN_OFFSET:
+            img_rect.topright = (adjusted_x + TILE_WIDTH / 2 - 125, self.y)
+        elif self.x == 0.0 + SCREEN_OFFSET:
+            img_rect.topleft = (adjusted_x + TILE_WIDTH / 2 + 125, self.y)
         else:
-            tile_rect = pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
+            tile_rect = pygame.Rect(self.x - SCREEN_OFFSET/2, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
             img_rect.center = tile_rect.center
+ 
         
+        
+        # pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
+
+
+
         self.game.screen.blit(img, img_rect.topleft)
         if time.time() - self.last_move_time >= self.cooldown_time:
             self.sprite_index = (self.sprite_index + 1) % len(self.images)
             self.last_move_time = time.time()
 
     def get_rect(self):
-        return pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
+        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 175, TILE_HEIGHT)
+        colision.x += 75
+        return colision
 
     def update(self):
         # self.draw()
@@ -73,3 +82,11 @@ class Obstacle():
         if player_rect.colliderect(self.get_rect()):
             print("Collision between Player and Obstacle")
             self.game.obstacles.remove(self)
+            self.game.lives -= 1
+            self.game.life = Life(self.game, self.game.lives)
+
+        # if len(self.game.obstacles) > 2:
+        #     for obstacle in self.game.obstacles:
+        #         if obstacle != self:
+        #             if obstacle.y == self.y:
+        #                 self.game.obstacles.remove(self)

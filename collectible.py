@@ -1,5 +1,6 @@
 from settings import *
 from map import *
+from life import Life
 import pygame
 
 class Collectibles:
@@ -7,42 +8,61 @@ class Collectibles:
         self.game = game
         self.mini_map = mini_map
         self.size = (TILE_WIDTH, TILE_HEIGHT)
-        self.x = x * TILE_WIDTH
-        self.y = y * TILE_HEIGHT + int(SCREEN_HEIGHT/3)
+        self.x = SCREEN_OFFSET/2 + x * TILE_WIDTH
+        self.y = y * TILE_HEIGHT + int(SCREEN_HEIGHT/4)
         self.speed = 2
-        self.collectible_type = random.choice(['coin', 'heart'])
+
+        self.collectible_type_weights = (0.8, 0.2)
+        self.collectible_type_array = ['coin', 'heart']
+        self.collectible_type = random.choices(self.collectible_type_array, weights=self.collectible_type_weights)[0]
+        
         self.images = {
             'coin': pygame.image.load('assets/bonus/coin.png'),
             'heart': pygame.image.load('assets/bonus/wine.png')
         }
 
     def get_rect(self):
-        return pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
+        # return pygame.Rect(self.x, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
+        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT)
+        colision.x += 75
+        return colision
 
     def draw(self):
         img = self.images[self.collectible_type]
         img_rect = img.get_rect()
-
-        if self.x == 535.3333333333334:
-            perspective_factor = 0.2
-        elif self.x == 0.0:
-            perspective_factor = -0.2  # Reverse the effect for self.x == 0.0
+        
+        if self.x == 535.3333333333334 + SCREEN_OFFSET/2:
+            perspective_factor = 0.4 
+        elif self.x == 0.0 + SCREEN_OFFSET/2:
+            perspective_factor = -0.4
         else:
             perspective_factor = 0.2
 
         x_offset = (self.y / SCREEN_HEIGHT) * (SCREEN_WIDTH / 2) * perspective_factor
         adjusted_x = self.x + x_offset
 
-        if self.x == 535.3333333333334:
-            img_rect.topright = (adjusted_x + TILE_WIDTH / 2 - 50, self.y + TILE_HEIGHT / 2)
-        elif self.x == 0.0:
-            img_rect.topleft = (adjusted_x + TILE_WIDTH / 2 + 50, self.y + TILE_HEIGHT / 2)  # Adjusted for top right
+        if self.x == 535.3333333333334 + SCREEN_OFFSET/2:
+            img_rect.topright = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2 - SCREEN_OFFSET - 100, self.y + TILE_HEIGHT / 2)
+        elif self.x == 0.0 + SCREEN_OFFSET/2:
+            img_rect.topleft = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2, self.y + TILE_HEIGHT / 2)  # Adjusted for top right
         else:
-            tile_rect = pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
+            tile_rect = pygame.Rect(self.x, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
             img_rect.center = tile_rect.center
 
+        shadow_radius = 40 // 2  
+        shadow_radius_x = TILE_WIDTH // 10  # Rayon horizontal de l'ombre
+        shadow_radius_y = TILE_HEIGHT // 20
+        shadow_color = (0, 0, 0, 50)
+        shadow_surface = pygame.Surface((shadow_radius_x * 2, shadow_radius_y * 2), pygame.SRCALPHA)
+
+        shadow_center = (img_rect.centerx, img_rect.centery + 25 + shadow_radius)
+        pygame.draw.ellipse(shadow_surface, shadow_color, (0, 0, shadow_radius_x * 2, shadow_radius_y * 2))
+        self.game.screen.blit(shadow_surface, (shadow_center[0] - shadow_radius_x, shadow_center[1] - shadow_radius_y))
+
+        # Dessine l'image sur l'écran
         self.game.screen.blit(img, img_rect.topleft)
 
+        # pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
 
 
 
@@ -65,4 +85,5 @@ class Collectibles:
             elif self.collectible_type == 'heart':
                 self.game.lives += 1
                 self.game.lives = min(self.game.lives, 3)
+                self.game.life = Life(self.game, self.game.lives)
                 print("Lives: ", self.game.lives)
