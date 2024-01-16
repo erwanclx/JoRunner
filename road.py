@@ -53,11 +53,12 @@ from settings import *
 
 # Add Road centered on screen
 class Road:
-    def __init__(self):
-        self.light_road = pygame.image.load('assets/Champs-Elysees_1-min.png').convert()
-        # self.light_road = pygame.image.load('assets/CC.png').convert()
-        self.dark_road = pygame.image.load('assets/Champs-Elysees_2-min.png').convert()
-        # self.dark_road = pygame.image.load('assets/BB.png').convert()
+    def __init__(self, game):
+        self.game = game
+        self.light_road = pygame.image.load(f'assets/maps/{self.game.level}/1.png').convert()
+        # self.light_road = pygame.image.load('assets/Champs-Elysees_1-min.png').convert()
+        self.dark_road = pygame.image.load(f'assets/maps/{self.game.level}/2.png').convert()
+        # self.dark_road = pygame.image.load('assets/Champs-Elysees_2-min.png').convert()
         self.texture_position = 0
         self.ddz = 0.001
         self.dz = 0

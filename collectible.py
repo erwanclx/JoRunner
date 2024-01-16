@@ -12,13 +12,15 @@ class Collectibles:
         self.y = y * TILE_HEIGHT + int(SCREEN_HEIGHT/4)
         self.speed = 5
 
-        self.collectible_type_weights = (0.8, 0.2)
-        self.collectible_type_array = ['coin', 'heart']
+        # self.collectible_type_weights = (0, 0, 1)
+        self.collectible_type_weights = (0.8, 0.15, 0.05)
+        self.collectible_type_array = ['coin', 'heart', 'bonus_jo']
         self.collectible_type = random.choices(self.collectible_type_array, weights=self.collectible_type_weights)[0]
         
         self.images = {
             'coin': pygame.image.load('assets/bonus/coin.png'),
-            'heart': pygame.image.load('assets/bonus/wine.png')
+            'heart': pygame.image.load('assets/bonus/wine.png'),
+            'bonus_jo': pygame.image.load(f'assets/jo_circle/item/{min(self.game.jo_counter + 1, 5)}.png')
         }
 
     def get_rect(self):
@@ -26,8 +28,18 @@ class Collectibles:
         colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT)
         colision.x += 75
         return colision
+    
+    def disablejo(self):
+        self.collectible_type_weights = (0.8, 0.2)
+        self.collectible_type_array = ['coin', 'heart']
+        self.collectible_type = random.choices(self.collectible_type_array, weights=self.collectible_type_weights)[0]
+        self.images = {
+            'coin': pygame.image.load('assets/bonus/coin.png'),
+            'heart': pygame.image.load('assets/bonus/wine.png')
+        }
 
     def draw(self):
+
         img = self.images[self.collectible_type]
         img_rect = img.get_rect()
         
@@ -87,3 +99,10 @@ class Collectibles:
                 self.game.lives = min(self.game.lives, 3)
                 self.game.life = Life(self.game, self.game.lives)
                 print("Lives: ", self.game.lives)
+            elif self.collectible_type == 'bonus_jo':
+                self.game.jo_counter += 1
+                self.game.jo_counter = min(self.game.jo_counter, 5)
+                print("Jo Counter: ", self.game.jo_counter)
+                if self.game.jo_counter == 5:
+                    self.disablejo()
+                    print("Bonus Jo disabled")

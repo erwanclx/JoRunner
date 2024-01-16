@@ -33,6 +33,6 @@ class Map:
         for j, row in enumerate(self.mini_map):
             for i, col in enumerate(row):
                 if col:
-                    pygame.draw.rect(self.game.screen, ((255, 255, 255, 128)), (i * TILE_WIDTH + SCREEN_OFFSET, j * TILE_HEIGHT + int(SCREEN_HEIGHT/3), TILE_WIDTH, 1), 2)
+                    pygame.draw.rect(self.game.screen, ((67, 64, 64)), (i * TILE_WIDTH + SCREEN_OFFSET, j * TILE_HEIGHT + int(SCREEN_HEIGHT/3), TILE_WIDTH, 1), 2)
 
         pass

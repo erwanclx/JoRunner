@@ -13,6 +13,8 @@ class Player:
         self.cooldown_time = 0.1
         self.last_move_time = time.time()
 
+        self.hurt_image = pygame.image.load('assets/player/hurt.png')
+
         self.images = ['Marin_1.png', 'Marin_2.png', 'Marin_3.png', 'Marin_4.png']
         self.left_image = pygame.image.load('assets/player/Marin_left.png')
         self.left_image_wind = pygame.image.load('assets/player_wind/Wind_Left.png')
@@ -25,6 +27,8 @@ class Player:
         self.last_move_time = time.time()
 
         self.last_sprite_time = time.time()
+
+        self.player_hurt_time = time.time()
 
         self.target_x = self.x
         self.moving = False
@@ -71,8 +75,9 @@ class Player:
             self.moving = False
 
     def get_rect(self):
-        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT)
+        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT - 50)
         colision.x += 75
+        colision.y += 50
         return colision
     
     def calculate_scaled_size(self):
@@ -98,14 +103,21 @@ class Player:
                 self.game.screen.blit(pygame.transform.scale(self.right_image_wind, scaled_size), (self.x, self.y - 100))
             # self.game.screen.blit(pygame.transform.scale(self.left_image_wind, scaled_size), (self.x, self.y - 100))
         else:
+            
             current_sprite = pygame.image.load('assets/player/' + self.images[self.sprite_index])
+            if self.game.player_hurt:
+                current_sprite = pygame.image.load('assets/player/hurt.png')
+                if time.time() - self.game.player_hurt_time >= 0.5:
+                    self.game.player_hurt = False
+                    self.game.player_hurt_time = time.time()
+
             self.game.screen.blit(pygame.transform.scale(current_sprite, scaled_size), (self.x, self.y - 100))
 
         if time.time() - self.last_sprite_time >= 0.1:
             self.sprite_index = (self.sprite_index + 1) % len(self.images)
             self.last_sprite_time = time.time()
 
-        # pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
+        pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
 
     def update(self):
         self.movement()

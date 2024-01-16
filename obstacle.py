@@ -3,6 +3,7 @@ from map import *
 from gameui import Life
 import pygame
 import time
+from player import Player
 
 class Obstacle():
     def __init__(self, game, x, y):
@@ -84,9 +85,8 @@ class Obstacle():
             self.game.obstacles.remove(self)
             self.game.lives -= 1
             self.game.life = Life(self.game, self.game.lives)
+            self.game.player_hit_sound.set_volume(0.5)
+            self.game.player_hit_sound.play()
 
-        # if len(self.game.obstacles) > 2:
-        #     for obstacle in self.game.obstacles:
-        #         if obstacle != self:
-        #             if obstacle.y == self.y:
-        #                 self.game.obstacles.remove(self)
+            self.game.player_hurt_time = time.time()
+            self.game.player_hurt = True
