@@ -70,6 +70,11 @@ class Game:
         self.lives = DEFAULT_LIVES
         self.player_hurt = False
         self.jo_counter = 0
+    
+    def reset_level(self):
+        self.level = 1
+        self.level_time = LEVEL_TIME
+        self.remaining_time = self.level_time
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -134,6 +139,20 @@ class Game:
                             self.obstacles.append(obstacle)
                         self.line_count += 1
         self.frame_count += 1
+        # Instead of frame use clock
+        # All the 3 seconds make a new obstacle
+        # All the 5 seconds make a new collectible
+    #     current_time = pygame.time.get_ticks()
+
+    #     # Every 3000 milliseconds (3 seconds), create a new obstacle
+    #     if current_time % 3000 == 0:
+    #         obstacle = Obstacle(self, random.randint(0, 2), 0)
+    #         self.obstacles.append(obstacle)
+
+    # # Every 5000 milliseconds (5 seconds), create a new collectible
+    #     if current_time % 5000 == 0:
+    #         collectible = Collectibles(self, random.randint(0, 2), 0)
+    #         self.collectibles.append(collectible)
 
     def update_obstacles(self):
         for obstacle in self.obstacles:

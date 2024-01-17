@@ -35,6 +35,7 @@ class GameOver:
         self.game_over_button = pygame.transform.scale(self.game_over_button, (self.game_over_button_width // 2, self.game_over_button_height // 2))
     
     def replay(self):
+        self.game.reset_level()
         self.game.new_game()
         self.game_over = False
         self.game.game_over = False
