@@ -13,7 +13,7 @@ class Collectibles:
         self.speed = 5
 
         # self.collectible_type_weights = (0, 0, 1)
-        self.collectible_type_weights = (0.8, 0.15, 0.05)
+        self.collectible_type_weights = (0.88, 0.07, 0.05)
         self.collectible_type_array = ['coin', 'heart', 'bonus_jo']
         self.collectible_type = random.choices(self.collectible_type_array, weights=self.collectible_type_weights)[0]
         
@@ -30,7 +30,7 @@ class Collectibles:
         return colision
     
     def disablejo(self):
-        self.collectible_type_weights = (0.8, 0.2)
+        self.collectible_type_weights = (0.88, 0.12)
         self.collectible_type_array = ['coin', 'heart']
         self.collectible_type = random.choices(self.collectible_type_array, weights=self.collectible_type_weights)[0]
         self.images = {
@@ -94,6 +94,16 @@ class Collectibles:
             if self.collectible_type == 'coin':
                 self.game.score += 1
                 print("Score: ", self.game.score)
+                if self.game.score == SCORE_TO_CHANGE_LEVEL:
+                    self.game.level += 1
+
+                    if self.game.level == 4:
+                        print("You win!")
+                        self.game.reset_values()
+                    else:
+                        self.game.new_game()
+                    print("Level: ", self.game.level)
+                    
             elif self.collectible_type == 'heart':
                 self.game.lives += 1
                 self.game.lives = min(self.game.lives, 3)

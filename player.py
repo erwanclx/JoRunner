@@ -15,12 +15,13 @@ class Player:
 
         self.hurt_image = pygame.image.load('assets/player/hurt.png')
 
-        self.images = ['Marin_1.png', 'Marin_2.png', 'Marin_3.png', 'Marin_4.png']
-        self.left_image = pygame.image.load('assets/player/Marin_left.png')
+        self.images = ['1.png', '2.png', '3.png', '4.png']
+        self.left_image = pygame.image.load(f'assets/player/{self.game.level}/left.png')
+        self.right_image = pygame.image.load(f'assets/player/{self.game.level}/right.png')
+
         self.left_image_wind = pygame.image.load('assets/player_wind/Wind_Left.png')
-        self.right_image = pygame.image.load('assets/player/Marin_right.png')
         self.right_image_wind = pygame.image.load('assets/player_wind/Wind_Right.png')
-        # self.images = ['0.png', '1.png', '2.png', '3.png']
+
         self.sprite_index = 0
 
         self.cooldown_time = 0.2
@@ -104,7 +105,7 @@ class Player:
             # self.game.screen.blit(pygame.transform.scale(self.left_image_wind, scaled_size), (self.x, self.y - 100))
         else:
             
-            current_sprite = pygame.image.load('assets/player/' + self.images[self.sprite_index])
+            current_sprite = pygame.image.load(f'assets/player/{self.game.level}/' + self.images[self.sprite_index])
             if self.game.player_hurt:
                 current_sprite = pygame.image.load('assets/player/hurt.png')
                 if time.time() - self.game.player_hurt_time >= 0.5:
