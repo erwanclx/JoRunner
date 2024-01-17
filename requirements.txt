@@ -1,3 +1,4 @@
 pygame
 rich
-pyvidplayer
+pyvidplayer2
+numpy

@@ -1,6 +1,7 @@
 from settings import *
 from map import *
 from gameui import Life
+from gamewin import GameWin
 import pygame
 
 class Collectibles:
@@ -22,6 +23,14 @@ class Collectibles:
             'heart': pygame.image.load('assets/bonus/wine.png'),
             'bonus_jo': pygame.image.load(f'assets/jo_circle/item/{min(self.game.jo_counter + 1, 5)}.png')
         }
+
+        self.sounds = {
+            'coin': pygame.mixer.Sound('assets/sounds/coin.mp3'),
+            'heart': pygame.mixer.Sound('assets/sounds/heart.mp3')
+        }
+
+        for sound in self.sounds.values():
+            sound.set_volume(0.2)
 
     def get_rect(self):
         # return pygame.Rect(self.x, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
@@ -92,19 +101,28 @@ class Collectibles:
             print("Collision between Player and Collectible")
             self.game.collectibles.remove(self)
             if self.collectible_type == 'coin':
+                self.sounds['coin'].play()
                 self.game.score += 1
                 print("Score: ", self.game.score)
                 if self.game.score == SCORE_TO_CHANGE_LEVEL:
+
+                    self.game.level_up(self.game.level)
+
                     self.game.level += 1
 
-                    if self.game.level == 4:
+                    print("Level: ", self.game.level)
+
+                    if self.game.level == LEVEL_NUMBER+1:
                         print("You win!")
-                        self.game.reset_values()
+                        # self.game.reset_values()
+                        self.game.is_game_win = True
+                        
                     else:
                         self.game.new_game()
                     print("Level: ", self.game.level)
                     
             elif self.collectible_type == 'heart':
+                self.sounds['heart'].play()
                 self.game.lives += 1
                 self.game.lives = min(self.game.lives, 3)
                 self.game.life = Life(self.game, self.game.lives)

@@ -55,10 +55,10 @@ from settings import *
 class Road:
     def __init__(self, game):
         self.game = game
-        self.light_road = pygame.image.load(f'assets/maps/{self.game.level}/1.png').convert()
-        # self.light_road = pygame.image.load('assets/Champs-Elysees_1-min.png').convert()
-        self.dark_road = pygame.image.load(f'assets/maps/{self.game.level}/2.png').convert()
-        # self.dark_road = pygame.image.load('assets/Champs-Elysees_2-min.png').convert()
+        self.light_road = pygame.image.load(f'assets/maps/{self.game.level}/1B.png').convert()
+        # self.light_road = pygame.image.load(f'assets/maps/{self.game.level}/1.png').convert()
+        self.dark_road = pygame.image.load(f'assets/maps/{self.game.level}/1A.png').convert()
+        # self.dark_road = pygame.image.load(f'assets/maps/{self.game.level}/2.png').convert()
         self.texture_position = 0
         self.ddz = 0.001
         self.dz = 0
@@ -68,9 +68,11 @@ class Road:
         screen.fill((255, 242, 204))
         for i in range(SCREEN_HEIGHT-1, -1, -1):
             if self.texture_position < half_texture_position_threshold:
-                screen.blit(self.light_road, (SCREEN_OFFSET, i), (0, i, SCREEN_WIDTH, 1))
+                # screen.blit(self.light_road, (SCREEN_OFFSET, i), (0, i, SCREEN_WIDTH, 1))
+                screen.blit(self.light_road, (0, i), (0, i, SCREEN_FULL_WIDTH, 1))
             else:
-                screen.blit(self.dark_road, (SCREEN_OFFSET, i), (0, i, SCREEN_WIDTH, 1))
+                # screen.blit(self.dark_road, (SCREEN_OFFSET, i), (0, i, SCREEN_WIDTH, 1))
+                screen.blit(self.dark_road, (0, i), (0, i, SCREEN_FULL_WIDTH, 1))
             self.dz += self.ddz
             self.z += self.dz
 

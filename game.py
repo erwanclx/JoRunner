@@ -13,6 +13,8 @@ from bonus_jo import BonusJo
 from overlay import Overlay
 from gameover import GameOver
 from pause import Pause
+from levelup import LevelUp
+from gamewin import GameWin
 
 import time
 
@@ -48,11 +50,15 @@ class Game:
 
         self.player_hit_sound = pygame.mixer.Sound('assets/sounds/hurt.mp3')
 
+        self.level_sound = pygame.mixer.Sound(f'assets/maps/{self.level}/music.mp3')
+        self.level_sound.set_volume(0.1)
+
         # Bonus Jo
         self.jo_counter = 0
 
         # Launch the game
         self.game_over = False
+        self.is_game_win = False
         self.pause = False
         self.new_game()
 
@@ -90,7 +96,9 @@ class Game:
                 self.pause = not self.pause
                 if self.pause:
                     self.pause_menu = Pause(self)
-
+    def level_up(self, level):
+        level_up = LevelUp(self, level)
+        level_up.play()
 
     def create_road(self):
         self.road = Road(self)
@@ -134,37 +142,22 @@ class Game:
 
     def get_obstacle(self):
 
-        # if self.frame_count % 6 == 0:
-        #         if not random.randint(0,2):
-
-        #             if not random.randint(0, 4):
-        #                 collectible = Collectibles(self, random.randint(0, 2), 0)
-        #                 self.collectibles.append(collectible)
-        #             else:
-        #                 if self.line_count % 4 == 0:
-        #                     obstacle = Obstacle(self, random.randint(0, 2), 0)
-        #                     self.obstacles.append(obstacle)
-        #                 self.line_count += 1
         self.frame_count += 1
         current_time = int( pygame.time.get_ticks() / 1000)
 
-        if current_time % (4 - self.level) == 0:
+        if current_time % (max(4 - self.level, 1)) == 0:
             if current_time != self.last_time:
                 print("New obstacle")
                 obstacle = Obstacle(self, random.randint(0, 2), 0)
                 self.obstacles.append(obstacle)
 
-        print(current_time % 2)
         if current_time % 2 == 0:
-            # print("New collectible")
             if current_time != self.last_time:
                 print("New collectible")
                 collectible = Collectibles(self, random.randint(0, 2), 0)
                 self.collectibles.append(collectible)
 
         self.last_time = current_time
-
-        # print(current_time)
 
     def update_obstacles(self):
         for obstacle in self.obstacles:
@@ -177,26 +170,15 @@ class Game:
     def disable_hurted_player(self):
         self.player_hurt = False
 
-    # def life_check(self):
-    #     if self.lives == 0 or self.lives < 0:
-    #         # self.new_game()
-    #         self.game_over = GameOver(self)
-    #         self.game_over.draw()
-    #         # pygame.display.flip()
-
-    #     if self.lives > MAX_LIVES:
-    #         self.lives = MAX_LIVES
-
     def global_update(self):
         self.life.update()
-        # self.life_check()
         self.time.update_timer()
-        # self.disable_hurted_player()
 
     def overlay_update(self):
         self.overlay.update()
 
     def run(self):
+        self.level_sound.play(-1)
         clock = pygame.time.Clock()
 
         while True:
@@ -204,8 +186,13 @@ class Game:
 
             if not self.game_over:
 
+                print("Status: ", self.is_game_win)
+
                 if self.pause:
                     self.pause_menu.draw()
+                elif self.is_game_win:
+                    self.game_win = GameWin(self)
+                    self.game_win.draw()
                 else:
                     self.handle_events()
                     self.update_road_position()
@@ -219,11 +206,8 @@ class Game:
                     if self.lives == 0:
                         self.game_over = True
                         self.game_over_menu = GameOver(self)
+
             else:
                 self.game_over_menu.draw()
 
             pygame.display.flip()
-
-# if __name__ == "__main__":
-#     game = Game()
-#     game.run()
