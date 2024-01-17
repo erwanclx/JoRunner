@@ -76,7 +76,7 @@ class Player:
             self.moving = False
 
     def get_rect(self):
-        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT - 80)
+        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT - 90)
         colision.x += 75
         colision.y += 50
         return colision
@@ -118,7 +118,7 @@ class Player:
             self.sprite_index = (self.sprite_index + 1) % len(self.images)
             self.last_sprite_time = time.time()
 
-        # pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
+        pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
 
     def update(self):
         self.movement()
