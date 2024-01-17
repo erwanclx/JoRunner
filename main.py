@@ -33,13 +33,28 @@ class Menu:
 
         self.quit_button_x = (self.menu_width - self.quit_button_width // 2) // 2
         self.quit_button_y = (self.menu_height + self.play_button_height // 2) // 2 + 75
+
+        self.fade_alpha = 0
+
+        self.background_sound = pygame.mixer.Sound('assets/sounds/Training_Montage.mp3')
+        self.background_sound.play(-1)
+        self.background_sound.set_volume(0.1)
     
 
     def draw(self):
+        self.fade_alpha += 10
+        if self.fade_alpha > 255:
+            self.fade_alpha = 255
+
+        self.menu_background.set_alpha(self.fade_alpha)
+
         self.screen.blit(self.menu_background, (0, 0))
-        
+
         scaled_play_button = pygame.transform.scale(self.play_button, (self.play_button_width // 2, self.play_button_height // 2))
         scaled_quit_button = pygame.transform.scale(self.quit_button, (self.quit_button_width // 2, self.play_button_height // 2))
+
+        scaled_play_button.set_alpha(self.fade_alpha)
+        scaled_quit_button.set_alpha(self.fade_alpha)
 
         self.screen.blit(scaled_play_button, (self.play_button_x, self.play_button_y))
         self.screen.blit(scaled_quit_button, (self.quit_button_x, self.quit_button_y))

@@ -24,19 +24,23 @@ class Pause:
 
         self.pause_quit_x = (self.menu_width - self.pause_quit_width // 2) // 2
         self.game.pause_quit_x = self.pause_quit_x
-        self.pause_quit_y = (self.menu_height + self.pause_play_height // 2) // 2 + 150
-        # self.pause_quit_y = (self.menu_height + self.pause_play_height // 2) // 2 + 75
+
+        self.pause_quit_y = (self.menu_height + self.pause_play_height // 2) // 2 + 75
         self.game.pause_quit_y = self.pause_quit_y
+
+        self.play_hover = False
+        self.quit_hover = False
 
     def draw(self):
         if self.game.pause == True:
-            scaled_pause_play = pygame.transform.scale(self.pause_play, (self.pause_play_width // 2, self.pause_play_height // 2))
-            scaled_pause_quit = pygame.transform.scale(self.pause_quit, (self.pause_quit_width // 2, self.pause_play_height // 2))
 
-            self.game.screen.blit(scaled_pause_play, (self.pause_play_x, self.pause_play_y))
-            self.game.screen.blit(scaled_pause_quit, (self.pause_quit_x, self.pause_quit_y))
+            self.scaled_pause_play = pygame.transform.scale(self.pause_play, (self.pause_play_width // 2, self.pause_play_height // 2))
+            self.scaled_pause_quit = pygame.transform.scale(self.pause_quit, (self.pause_quit_width // 2, self.pause_play_height // 2))
 
-            # Draw coliision boxes
+            self.game.screen.blit(self.scaled_pause_play, (self.pause_play_x, self.pause_play_y))
+
+            self.game.screen.blit(self.scaled_pause_quit, (self.pause_quit_x, self.pause_quit_y))
+
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -47,8 +51,11 @@ class Pause:
                         self.play()
 
                     elif self.pause_quit_x < mouse_x < self.pause_quit_x + self.pause_quit_width // 2 and self.pause_quit_y < mouse_y < self.pause_quit_y + self.pause_quit_height // 2:
-                        print("Quit")
                         self.quit()
+
+                elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
     def play(self):
         self.game.pause = False
