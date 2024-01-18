@@ -59,15 +59,15 @@ class Player:
             self.moving = False
 
     def get_rect(self):
-        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT - 90)
-        colision.x += 75
+        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - (150 * ASSETS_MULTIPLIER), TILE_HEIGHT - 90)
+        colision.x += 75 * ASSETS_MULTIPLIER
         colision.y += 50
         return colision
     
     def calculate_scaled_size(self):
         aspect_ratio = self.player_image.get_width() / self.player_image.get_height()
-        new_width = TILE_WIDTH
-        new_height = int(TILE_WIDTH / aspect_ratio)
+        new_width = TILE_WIDTH * 0.8
+        new_height = int(TILE_WIDTH * 0.8 / aspect_ratio)
         return new_width, new_height
 
     def draw(self):

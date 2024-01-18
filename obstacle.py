@@ -38,10 +38,12 @@ class Obstacle():
 
         # img = pygame.image.load('assets/rat/' + self.images[self.sprite_index])
         img = pygame.image.load('assets/rat/' + self.images[self.random_choice][self.sprite_index])
+        img = pygame.transform.scale(img, (int(img.get_width() * 1.3), int(img.get_height() * 1.3)))
 
         img_rect = img.get_rect()
 
-        if self.x == 535.3333333333334 + SCREEN_OFFSET:
+        # if self.x == 535.3333333333334 + SCREEN_OFFSET:
+        if self.x == 1173.3333333333335 :
             perspective_factor = 0.4 
         elif self.x == 0.0 + SCREEN_OFFSET:
             perspective_factor = -0.4
@@ -51,10 +53,11 @@ class Obstacle():
         x_offset = (self.y / SCREEN_HEIGHT) * (SCREEN_WIDTH / 2) * perspective_factor
         adjusted_x = self.x + x_offset
 
-        if self.x == 535.3333333333334 + SCREEN_OFFSET:
-            img_rect.topright = (adjusted_x + TILE_WIDTH / 2 - 125, self.y)
+        # if self.x == 535.3333333333334 + SCREEN_OFFSET:
+        if self.x == 1173.3333333333335 :
+            img_rect.topright = (adjusted_x + TILE_WIDTH / 2 - 125 * ASSETS_MULTIPLIER, self.y)
         elif self.x == 0.0 + SCREEN_OFFSET:
-            img_rect.topleft = (adjusted_x + TILE_WIDTH / 2 + 125, self.y)
+            img_rect.topleft = (adjusted_x + TILE_WIDTH / 2 + 125 * ASSETS_MULTIPLIER, self.y)
         else:
             tile_rect = pygame.Rect(self.x - SCREEN_OFFSET/2, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
             img_rect.center = tile_rect.center
@@ -69,6 +72,8 @@ class Obstacle():
         if time.time() - self.last_move_time >= self.cooldown_time:
             self.sprite_index = (self.sprite_index + 1) % len(self.images)
             self.last_move_time = time.time()
+
+        print("Obstacle position: ", self.x, self.y)
 
     def get_rect(self):
         colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 175, TILE_HEIGHT)
