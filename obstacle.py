@@ -17,7 +17,18 @@ class Obstacle():
 
         self.frame_count = 0
 
-        self.images = ['1.png', '2.png', '3.png', '4.png']
+        # self.images = ['1.png', '2.png', '3.png', '4.png']
+        # self.images = ['scooter.png']
+        # self.images = ['/hidalgo/0.png', '/hidalgo/1.png', '/hidalgo/2.png', '/hidalgo/3.png']
+
+        self.images = {
+            'scooter': ['scooter.png', 'scooter.png', 'scooter.png', 'scooter.png'],
+            'hidalgo': ['/hidalgo/0.png', '/hidalgo/1.png', '/hidalgo/2.png', '/hidalgo/3.png'],
+            'rat': ['1.png', '2.png', '3.png', '4.png']
+        }
+        self.choices = ['scooter', 'hidalgo', 'rat']
+        self.random_choice = random.choice(self.choices)
+
         self.sprite_index = 0
 
         self.cooldown_time = 0.2
@@ -25,7 +36,9 @@ class Obstacle():
 
     def draw(self):
 
-        img = pygame.image.load('assets/rat/' + self.images[self.sprite_index])
+        # img = pygame.image.load('assets/rat/' + self.images[self.sprite_index])
+        img = pygame.image.load('assets/rat/' + self.images[self.random_choice][self.sprite_index])
+
         img_rect = img.get_rect()
 
         if self.x == 535.3333333333334 + SCREEN_OFFSET:

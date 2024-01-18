@@ -8,14 +8,24 @@ class Overlay:
         self.left_flame = Flame('left', self.game)
         self.right_flame = Flame('right', self.game)
 
+        self.left_flag = Flag('left', self.game)
+        self.right_flag = Flag('right', self.game)
+
     def draw(self):
         self.wall.draw()
 
         self.left_flame.draw('left')
         self.right_flame.draw('right')
+
+        self.left_flag.draw('left')
+        self.right_flag.draw('right')
+        
     def update(self):
         self.left_flame.flame_frame()
         self.right_flame.flame_frame()
+
+        self.left_flag.flag_frame()
+        self.right_flag.flag_frame()
 
 class Wall:
     def __init__(self, game):
@@ -47,6 +57,9 @@ class Flame:
             'right': pygame.image.load(f'assets/overlay/flame/right/{self.flame_index}.png'),
         }
 
+    def scale(self, img):
+        return pygame.transform.scale(img, (int(img.get_width() / 1.5), int(img.get_height() / 1.5)))
+
     def flame_frame(self):
         if self.game.frame_count % 6 == 0:
             if self.flame_index == 1:
@@ -57,6 +70,39 @@ class Flame:
     
     def draw(self, orientation):
         if orientation == 'left':
-            self.game.screen.blit(self.orientations[orientation], (0, 100))
+            # self.game.screen.blit(self.orientations[orientation], (0, 100))
+            img = self.scale(self.orientations[orientation])
+            self.game.screen.blit(img, (SCREEN_OFFSET, SCREEN_HEIGHT - img.get_height()))
         else:
-            self.game.screen.blit(self.orientations[orientation], (SCREEN_WIDTH - 50, 100))
+            # self.game.screen.blit(self.orientations[orientation], (SCREEN_WIDTH - 50, 100))
+            img = self.scale(self.orientations[orientation])
+            self.game.screen.blit(img, (SCREEN_FULL_WIDTH - SCREEN_OFFSET - img.get_width(), SCREEN_HEIGHT - img.get_height()))
+
+
+class Flag:
+    def __init__(self, orientation, game):
+        self.orientation = orientation
+        self.game = game
+
+        self.flag_index = 1
+
+        self.scale = 0.5
+
+        self.orientations = {
+            'left': pygame.image.load(f'assets/overlay/flag/left/{self.flag_index}.png'),
+            'right': pygame.image.load(f'assets/overlay/flag/right/{self.flag_index}.png'),
+        }
+
+    def flag_frame(self):
+        if self.game.frame_count % 6 == 0:
+            if self.flag_index == 1:
+                self.flag_index = 2
+            else:
+                self.flag_index = 1
+            self.orientations[self.orientation] = pygame.image.load(f'assets/overlay/flag/{self.orientation}/{self.flag_index}.png')
+    
+    def draw(self, orientation):
+        if orientation == 'left':
+            self.game.screen.blit(self.orientations[orientation], (SCREEN_OFFSET + 220, 100))
+        else:
+            self.game.screen.blit(self.orientations[orientation], (SCREEN_FULL_WIDTH - 455, 100))
