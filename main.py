@@ -3,6 +3,7 @@ from game import Game
 from settings import *
 import sys
 from pyvidplayer2 import Video
+from utils import resource_path
 
 class Menu:
     def __init__(self):
@@ -21,18 +22,22 @@ class Menu:
         self.scale_factor = self.screen.get_height() / (SCREEN_HEIGHT)
 
 
-        self.menu_background = pygame.image.load('assets/menu/background.png')
+        # self.menu_background = pygame.image.load('assets/menu/background.png')
+        self.menu_background = pygame.image.load(resource_path('assets/menu/background.png'))
         
 
-        self.banner = pygame.image.load('assets/menu/banner.png')
+        # self.banner = pygame.image.load('assets/menu/banner.png')
+        self.banner = pygame.image.load(resource_path('assets/menu/banner.png'))
         self.banner_width = pygame.Surface.get_width(self.banner)
         self.banner_height = pygame.Surface.get_height(self.banner)
 
-        self.play_button = pygame.image.load('assets/menu/button/play.png')
+        # self.play_button = pygame.image.load('assets/menu/button/play.png')
+        self.play_button = pygame.image.load(resource_path('assets/menu/button/play.png'))
         self.play_button_width = pygame.Surface.get_width(self.play_button)
         self.play_button_height = pygame.Surface.get_height(self.play_button)
 
-        self.quit_button = pygame.image.load('assets/menu/button/quit.png')
+        # self.quit_button = pygame.image.load('assets/menu/button/quit.png')
+        self.quit_button = pygame.image.load(resource_path('assets/menu/button/quit.png'))
         self.quit_button_width = pygame.Surface.get_width(self.quit_button)
         self.quit_button_height = pygame.Surface.get_height(self.quit_button)
 
@@ -44,11 +49,13 @@ class Menu:
 
         self.fade_alpha = 0
 
-        self.background_sound = pygame.mixer.Sound('assets/sounds/Training_Montage.mp3')
+        # self.background_sound = pygame.mixer.Sound('assets/sounds/Training_Montage.mp3')
+        self.background_sound = pygame.mixer.Sound(resource_path('assets/sounds/Training_Montage.mp3'))
         self.background_sound.set_volume(0.1)
         self.background_sound.play(-1)
 
-        self.video = Video('assets/video/intro.mov')
+        # self.video = Video('assets/video/intro.mov')
+        self.video = Video(resource_path('assets/video/intro.mov'))
 
         self.pending_start = True
     
@@ -82,13 +89,15 @@ class Menu:
         self.screen.blit(scaled_quit_button, (self.quit_button_x, self.quit_button_y))
 
     def draw_banner(self):
-        title_font = pygame.font.Font('assets/fonts/pixel.ttf', 50)
+        # title_font = pygame.font.Font('assets/fonts/pixel.ttf', 50)
+        title_font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 50)
         title_text = title_font.render('JoRunner', True, (255, 255, 255))
         title_text_width = pygame.Surface.get_width(title_text)
         title_text_height = pygame.Surface.get_height(title_text)
         self.screen.blit(title_text, ((self.menu_width - title_text_width) // 2, (self.menu_height - title_text_height) // 2 - 100))
 
-        subtitle_font = pygame.font.Font('assets/fonts/pixel.ttf', 20)
+        # subtitle_font = pygame.font.Font('assets/fonts/pixel.ttf', 20)
+        subtitle_font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 20)
         subtitle_text = subtitle_font.render("Appuyez sur espace pour aider Marin à rejoindre les Jeux Olympiques", True, (255, 255, 255))
         subtitle_text_width = pygame.Surface.get_width(subtitle_text)
         subtitle_text_height = pygame.Surface.get_height(subtitle_text)

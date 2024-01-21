@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from utils import resource_path
 
 class Overlay:
     def __init__(self, game):
@@ -30,14 +31,14 @@ class Overlay:
 class Wall:
     def __init__(self, game):
         self.game = game
-        self.texture = pygame.image.load('assets/frame.png')
+        self.texture = pygame.image.load(resource_path('assets/frame.png'))
 
         self.width = SCREEN_WIDTH
         self.height = 40
         self.x = SCREEN_OFFSET
         self.y = SCREEN_HEIGHT - self.height
 
-        self.font = pygame.font.Font('assets/fonts/pixel.ttf', 20)
+        self.font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 20)
         
     def draw(self):
         self.game.screen.blit(pygame.transform.scale(self.texture, (self.width, self.height)), (self.x, self.y))
@@ -53,8 +54,8 @@ class Flame:
         
         # Images
         self.orientations = {
-            'left': pygame.image.load(f'assets/overlay/flame/left/{self.flame_index}.png'),
-            'right': pygame.image.load(f'assets/overlay/flame/right/{self.flame_index}.png'),
+            'left': pygame.image.load(resource_path(f'assets/overlay/flame/left/{self.flame_index}.png')),
+            'right': pygame.image.load(resource_path(f'assets/overlay/flame/right/{self.flame_index}.png')),
         }
 
     def scale(self, img):
@@ -66,7 +67,7 @@ class Flame:
                 self.flame_index = 2
             else:
                 self.flame_index = 1
-            self.orientations[self.orientation] = pygame.image.load(f'assets/overlay/flame/{self.orientation}/{self.flame_index}.png')
+            self.orientations[self.orientation] = pygame.image.load(resource_path(f'assets/overlay/flame/{self.orientation}/{self.flame_index}.png'))
     
     def draw(self, orientation):
         if orientation == 'left':
@@ -89,8 +90,8 @@ class Flag:
         self.scale = 0.5
 
         self.orientations = {
-            'left': pygame.image.load(f'assets/overlay/flag/left/{self.flag_index}.png'),
-            'right': pygame.image.load(f'assets/overlay/flag/right/{self.flag_index}.png'),
+            'left': pygame.image.load(resource_path(f'assets/overlay/flag/left/{self.flag_index}.png')),
+            'right': pygame.image.load(resource_path(f'assets/overlay/flag/right/{self.flag_index}.png')),
         }
 
     def flag_frame(self):
@@ -99,7 +100,7 @@ class Flag:
                 self.flag_index = 2
             else:
                 self.flag_index = 1
-            self.orientations[self.orientation] = pygame.image.load(f'assets/overlay/flag/{self.orientation}/{self.flag_index}.png')
+            self.orientations[self.orientation] = pygame.image.load(resource_path(f'assets/overlay/flag/{self.orientation}/{self.flag_index}.png'))
     
     def draw(self, orientation):
         if orientation == 'left':

@@ -3,6 +3,7 @@ from map import *
 from gameui import Life
 from gamewin import GameWin
 import pygame
+from utils import resource_path
 
 class Collectibles:
     def __init__(self, game, x, y):
@@ -19,14 +20,14 @@ class Collectibles:
         self.collectible_type = random.choices(self.collectible_type_array, weights=self.collectible_type_weights)[0]
         
         self.images = {
-            'coin': pygame.image.load('assets/bonus/coin.png'),
-            'heart': pygame.image.load('assets/bonus/wine.png'),
-            'bonus_jo': pygame.image.load(f'assets/jo_circle/item/{min(self.game.jo_counter + 1, 5)}.png')
+            'coin': pygame.image.load(resource_path('assets/bonus/coin.png')),
+            'heart': pygame.image.load(resource_path('assets/bonus/wine.png')),
+            'bonus_jo': pygame.image.load(resource_path(f'assets/jo_circle/item/{min(self.game.jo_counter + 1, 5)}.png'))
         }
 
         self.sounds = {
-            'coin': pygame.mixer.Sound('assets/sounds/coin.mp3'),
-            'heart': pygame.mixer.Sound('assets/sounds/heart.mp3')
+            'coin': pygame.mixer.Sound(resource_path('assets/sounds/coin.mp3')),
+            'heart': pygame.mixer.Sound(resource_path('assets/sounds/heart.mp3'))
         }
 
         for sound in self.sounds.values():
@@ -45,8 +46,8 @@ class Collectibles:
         self.collectible_type_array = ['coin', 'heart']
         self.collectible_type = random.choices(self.collectible_type_array, weights=self.collectible_type_weights)[0]
         self.images = {
-            'coin': pygame.image.load('assets/bonus/coin.png'),
-            'heart': pygame.image.load('assets/bonus/wine.png')
+            'coin': pygame.image.load(resource_path('assets/bonus/coin.png')),
+            'heart': pygame.image.load(resource_path('assets/bonus/wine.png'))
         }
 
     def draw(self):

@@ -2,25 +2,28 @@ import pygame
 from settings import *
 import time
 import sys
+from utils import resource_path
 
 class Player:
     def __init__(self, game):
         self.game = game
         self.x = TILE_WIDTH + SCREEN_OFFSET
         self.y = SCREEN_HEIGHT - TILE_HEIGHT
-        self.player_image = pygame.image.load('assets/player.png')
+        self.player_image = pygame.image.load(resource_path('assets/player.png'))
 
         self.cooldown_time = 0.1
         self.last_move_time = time.time()
 
-        self.hurt_image = pygame.image.load('assets/player/hurt.png')
+        self.hurt_image = pygame.image.load(resource_path('assets/player/hurt.png'))
 
         self.images = ['1.png', '2.png', '3.png', '4.png']
-        self.left_image = pygame.image.load(f'assets/player/{self.game.level}/left.png')
-        self.right_image = pygame.image.load(f'assets/player/{self.game.level}/right.png')
+        self.left_image = pygame.image.load(resource_path(f'assets/player/{self.game.level}/left.png'))
+        # self.left_image = pygame.image.load(f'assets/player/{self.game.level}/left.png')
+        self.right_image = pygame.image.load(resource_path(f'assets/player/{self.game.level}/right.png'))
+        # self.right_image = pygame.image.load(f'assets/player/{self.game.level}/right.png')
 
-        self.left_image_wind = pygame.image.load('assets/player_wind/Wind_Left.png')
-        self.right_image_wind = pygame.image.load('assets/player_wind/Wind_Right.png')
+        self.left_image_wind = pygame.image.load(resource_path('assets/player_wind/Wind_Left.png'))
+        self.right_image_wind = pygame.image.load(resource_path('assets/player_wind/Wind_Right.png'))
 
         self.sprite_index = 0
 
@@ -86,9 +89,9 @@ class Player:
                 self.game.screen.blit(pygame.transform.scale(self.right_image_wind, scaled_size), (self.x, self.y - 100))
         else:
             
-            current_sprite = pygame.image.load(f'assets/player/{min(self.game.level, LEVEL_NUMBER)}/' + self.images[self.sprite_index])
+            current_sprite = pygame.image.load(resource_path(f'assets/player/{min(self.game.level, LEVEL_NUMBER)}/' + self.images[self.sprite_index]))
             if self.game.player_hurt:
-                current_sprite = pygame.image.load('assets/player/hurt.png')
+                current_sprite = pygame.image.load(resource_path('assets/player/hurt.png'))
                 if time.time() - self.game.player_hurt_time >= 0.5:
                     self.game.player_hurt = False
                     self.game.player_hurt_time = time.time()

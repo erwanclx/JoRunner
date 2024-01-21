@@ -2,6 +2,7 @@ import pygame
 from settings import *
 import sys
 from pyvidplayer2 import Video
+from utils import resource_path
 
 
 class LevelUp:
@@ -11,18 +12,18 @@ class LevelUp:
 
         self.screen = self.game.screen
 
-        self.video = Video(f'assets/video/level_{level+1}.mov')
+        self.video = Video(resource_path(f'assets/video/level_{level+1}.mov'))
 
         self.pending_start = True
 
     def draw_banner(self):
-        title_font = pygame.font.Font('assets/fonts/pixel.ttf', 50)
+        title_font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 50)
         title_text = title_font.render('Félicitations !', True, (255, 255, 255))
         title_text_width = pygame.Surface.get_width(title_text)
         title_text_height = pygame.Surface.get_height(title_text)
         self.screen.blit(title_text, ((self.game.menu_width - title_text_width) // 2, (self.game.menu_height - title_text_height) // 2 - 100))
 
-        subtitle_font = pygame.font.Font('assets/fonts/pixel.ttf', 20)
+        subtitle_font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 20)
         subtitle_text = subtitle_font.render("Appuyez sur espace pour continuer", True, (255, 255, 255))
         subtitle_text_width = pygame.Surface.get_width(subtitle_text)
         subtitle_text_height = pygame.Surface.get_height(subtitle_text)
@@ -63,7 +64,7 @@ class LevelUp:
 
             self.game.reset_values()
             
-        self.game.level_sound = pygame.mixer.Sound(f'assets/maps/{self.game.level+1}/music.mp3')
+        self.game.level_sound = pygame.mixer.Sound(resource_path(f'assets/maps/{self.game.level+1}/music.mp3'))
         self.game.level_sound.set_volume(0.1)
         self.game.level_sound.play()
         

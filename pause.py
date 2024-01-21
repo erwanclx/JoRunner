@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 import sys
+from utils import resource_path
 
 class Pause:
     def __init__(self, game):
@@ -9,11 +10,11 @@ class Pause:
         self.menu_width = SCREEN_OFFSET + SCREEN_WIDTH + SCREEN_OFFSET
         self.menu_height = SCREEN_HEIGHT
 
-        self.pause_play = pygame.image.load('assets/menu/button/play.png')
+        self.pause_play = pygame.image.load(resource_path('assets/menu/button/play.png'))
         self.pause_play_width = pygame.Surface.get_width(self.pause_play)
         self.pause_play_height = pygame.Surface.get_height(self.pause_play)
 
-        self.pause_quit = pygame.image.load('assets/menu/button/quit.png')
+        self.pause_quit = pygame.image.load(resource_path('assets/menu/button/quit.png'))
         self.pause_quit_width = pygame.Surface.get_width(self.pause_quit)
         self.pause_quit_height = pygame.Surface.get_height(self.pause_quit)
 

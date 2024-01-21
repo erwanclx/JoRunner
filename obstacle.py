@@ -4,6 +4,7 @@ from gameui import Life
 import pygame
 import time
 from player import Player
+from utils import resource_path
 
 class Obstacle():
     def __init__(self, game, x, y):
@@ -37,7 +38,7 @@ class Obstacle():
     def draw(self):
 
         # img = pygame.image.load('assets/rat/' + self.images[self.sprite_index])
-        img = pygame.image.load('assets/rat/' + self.images[self.random_choice][self.sprite_index])
+        img = pygame.image.load(resource_path('assets/rat/' + self.images[self.random_choice][self.sprite_index]))
 
         img_rect = img.get_rect()
 

@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 import sys
+from utils import resource_path
 
 class GameWin:
     def __init__(self, game):
@@ -9,14 +10,14 @@ class GameWin:
         self.y = 0
         self.width = self.game.menu_width
         self.height = self.game.menu_height
-        self.image = pygame.image.load('assets/menu/game_win.png')
+        self.image = pygame.image.load(resource_path('assets/menu/game_win.png'))
         self.image = pygame.transform.scale(self.image, (self.game.menu_width, self.game.menu_height))
 
         # self.game_win_sound = pygame.mixer.Sound('assets/sounds/win/background.mp3')
         # self.game_win_sound.set_volume(0.1)
         # self.game_win_sound.play()
 
-        self.quit_button_image = pygame.image.load('assets/menu/button/quit.png')
+        self.quit_button_image = pygame.image.load(resource_path('assets/menu/button/quit.png'))
         self.quit_button_width = pygame.Surface.get_width(self.quit_button_image)
         self.quit_button_height = pygame.Surface.get_height(self.quit_button_image)
         self.quit_button_x = (self.game.menu_width - self.quit_button_width) // 2

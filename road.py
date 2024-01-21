@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from utils import resource_path
 
 # Half image
 # class Road:
@@ -55,10 +56,10 @@ from settings import *
 class Road:
     def __init__(self, game):
         self.game = game
-        self.light_road = pygame.image.load(f'assets/maps/{self.game.level}/1B.png').convert()
-        # self.light_road = pygame.image.load(f'assets/maps/{self.game.level}/1.png').convert()
-        self.dark_road = pygame.image.load(f'assets/maps/{self.game.level}/1A.png').convert()
-        # self.dark_road = pygame.image.load(f'assets/maps/{self.game.level}/2.png').convert()
+        self.light_road = pygame.image.load(resource_path(f'assets/maps/{self.game.level}/1B.png')).convert()
+        # self.light_road = pygame.image.load(f'assets/maps/{self.game.level}/1B.png').convert()
+        self.dark_road = pygame.image.load(resource_path(f'assets/maps/{self.game.level}/1A.png')).convert()
+        # self.dark_road = pygame.image.load(f'assets/maps/{self.game.level}/1A.png').convert()
         self.light_road = pygame.transform.scale(self.light_road, (SCREEN_FULL_WIDTH, SCREEN_HEIGHT))
         self.dark_road = pygame.transform.scale(self.dark_road, (SCREEN_FULL_WIDTH, SCREEN_HEIGHT))
         self.texture_position = 0

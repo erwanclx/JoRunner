@@ -1,18 +1,18 @@
 import pygame
 from settings import *
 import time
-from rich import print
+from utils import resource_path
 
 class Life:
     def __init__(self, game, life):
         self.game = game
         self.life = life
-        self.life_fill = pygame.image.load('assets/hearts/heart_fill.png')
-        self.life_empty = pygame.image.load('assets/hearts/heart_empty.png')
+        self.life_fill = pygame.image.load(resource_path('assets/hearts/heart_fill.png'))
+        self.life_empty = pygame.image.load(resource_path('assets/hearts/heart_empty.png'))
 
-        self.pixel_font = pygame.font.Font('assets/fonts/pixel.ttf', 32)
+        self.pixel_font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 32)
 
-        self.frame = pygame.image.load('assets/frame.png')
+        self.frame = pygame.image.load(resource_path('assets/frame.png'))
         self.frame_width = 1226
         self.frame_height = 558
 
@@ -33,7 +33,7 @@ class Life:
             self.game.screen.blit(pygame.transform.scale(self.life_empty, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 20 + i * 50, 100))
 
     def set_coin(self):
-        coin = pygame.image.load('assets/bonus/coin/' + self.coins_ui_sprite[self.coins_sprite_index])
+        coin = pygame.image.load(resource_path('assets/bonus/coin/' + self.coins_ui_sprite[self.coins_sprite_index]))
         self.game.screen.blit(pygame.transform.scale(coin, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 30 + 2 * 50, 165))
         if time.time() - self.last_move_time >= self.cooldown_time:
             self.coins_sprite_index = (self.coins_sprite_index + 1) % len(self.coins_ui_sprite)
@@ -49,7 +49,7 @@ class Life:
     def set_time(self):
         # print(self.game.remaining_time)
         timer_image_path = 'assets/time/' + self.timer_ui_sprite[self.timer_sprite_index]
-        timer_image = pygame.image.load(timer_image_path)
+        timer_image = pygame.image.load(resource_path(timer_image_path))
         scaled_timer_image = pygame.transform.scale(timer_image, (timer_image.get_width() // 3, timer_image.get_height() // 3))
 
         self.game.screen.blit(scaled_timer_image, (SCREEN_WIDTH - 120 + 1 * 50, 20))

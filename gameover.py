@@ -1,12 +1,13 @@
 import pygame
 from scale import ScaledContent
 from settings import *
+from utils import resource_path
 
 class GameOver:
     def __init__(self, game):
         self.game = game
         self.game_over = True
-        self.game_over_screen = pygame.image.load("assets/gameover/background.png")
+        self.game_over_screen = pygame.image.load(resource_path("assets/gameover/background.png"))
 
         self.scaledBg = ScaledContent(self.game, self.game_over_screen)
         
@@ -14,7 +15,7 @@ class GameOver:
 
         self.game_over_screen = pygame.transform.scale(self.game_over_screen, (self.game_over_back_width, self.game_over_back_height))
 
-        self.game_over_sound = pygame.mixer.Sound('assets/gameover/gameover_sound.mp3')
+        self.game_over_sound = pygame.mixer.Sound(resource_path('assets/gameover/gameover_sound.mp3'))
         self.game_over_sound.play()
         self.game_over_sound.set_volume(0.5)
 
@@ -32,7 +33,7 @@ class GameOver:
         self.fade_surface.fill((0, 0, 0))
         self.fade_alpha = 0
 
-        self.game_over_button = pygame.image.load("assets/gameover/replay.png")
+        self.game_over_button = pygame.image.load(resource_path("assets/gameover/replay.png"))
         self.game_over_button_width = pygame.Surface.get_width(self.game_over_button)
         self.game_over_button_height = pygame.Surface.get_height(self.game_over_button)
 
