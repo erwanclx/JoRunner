@@ -3,3 +3,4 @@ build
 dist
 output
 build.ps1
+JoRunner.spec
