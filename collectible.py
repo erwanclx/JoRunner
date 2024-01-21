@@ -35,8 +35,8 @@ class Collectibles:
     def get_rect(self):
         # return pygame.Rect(self.x, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
         colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT)
-        # Divide by 2 because of the perspective
-        colision.x += 75 * ASSETS_MULTIPLIER
+        colision.x += 150
+        # colision.x += 75
         return colision
     
     def disablejo(self):
@@ -53,8 +53,7 @@ class Collectibles:
         img = self.images[self.collectible_type]
         img_rect = img.get_rect()
         
-        # if self.x == 535.3333333333334 + SCREEN_OFFSET/2 :
-        if self.x == 1013.3333333333334 :
+        if self.x == 535.3333333333334 + SCREEN_OFFSET/2:
             perspective_factor = 0.4 
         elif self.x == 0.0 + SCREEN_OFFSET/2:
             perspective_factor = -0.4
@@ -64,8 +63,7 @@ class Collectibles:
         x_offset = (self.y / SCREEN_HEIGHT) * (SCREEN_WIDTH / 2) * perspective_factor
         adjusted_x = self.x + x_offset
 
-        # if self.x == 535.3333333333334 + SCREEN_OFFSET/2:
-        if self.x == 1013.3333333333334 :
+        if self.x == 535.3333333333334 + SCREEN_OFFSET/2:
             img_rect.topright = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2 - SCREEN_OFFSET - 100, self.y + TILE_HEIGHT / 2)
         elif self.x == 0.0 + SCREEN_OFFSET/2:
             img_rect.topleft = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2, self.y + TILE_HEIGHT / 2)  # Adjusted for top right
@@ -86,9 +84,8 @@ class Collectibles:
         # Dessine l'image sur l'écran
         self.game.screen.blit(img, img_rect.topleft)
 
-        print("Collectible position: ", self.x, self.y)
-
-        # pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
+        if DEBUG:
+            pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
 
 
 

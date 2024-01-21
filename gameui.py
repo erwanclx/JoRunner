@@ -28,13 +28,13 @@ class Life:
 
     def set_life(self):
         for i in range(self.life):
-            self.game.screen.blit(pygame.transform.scale(self.life_fill, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 20 + (i * ASSETS_MULTIPLIER) * 50, 100 + 30))
+            self.game.screen.blit(pygame.transform.scale(self.life_fill, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 20 + i * 50, 100))
         for i in range(self.life, DEFAULT_LIVES):
-            self.game.screen.blit(pygame.transform.scale(self.life_empty, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 20 + (i * ASSETS_MULTIPLIER) * 50, 100))
+            self.game.screen.blit(pygame.transform.scale(self.life_empty, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 20 + i * 50, 100))
 
     def set_coin(self):
         coin = pygame.image.load('assets/bonus/coin/' + self.coins_ui_sprite[self.coins_sprite_index])
-        self.game.screen.blit(pygame.transform.scale(coin, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 30 + 2 * 60, 165 + 80))
+        self.game.screen.blit(pygame.transform.scale(coin, (ICONS_SIZE, ICONS_SIZE)), (SCREEN_WIDTH - 30 + 2 * 50, 165))
         if time.time() - self.last_move_time >= self.cooldown_time:
             self.coins_sprite_index = (self.coins_sprite_index + 1) % len(self.coins_ui_sprite)
             self.last_move_time = time.time()   
@@ -42,7 +42,7 @@ class Life:
         text = self.pixel_font.render(str(self.game.score), True, (52, 53, 65))
         # text = self.pixel_font.render(str(self.game.score), True, (255, 216, 0))
         textRect = text.get_rect()
-        textRect.center = (SCREEN_WIDTH - 40 + 2 * 50, 200 + 120)
+        textRect.center = (SCREEN_WIDTH - 40 + 2 * 50, 200)
         self.game.screen.blit(text, textRect)    
 
 
@@ -50,9 +50,9 @@ class Life:
         # print(self.game.remaining_time)
         timer_image_path = 'assets/time/' + self.timer_ui_sprite[self.timer_sprite_index]
         timer_image = pygame.image.load(timer_image_path)
-        scaled_timer_image = pygame.transform.scale(timer_image, (timer_image.get_width() // 2, timer_image.get_height() // 2))
+        scaled_timer_image = pygame.transform.scale(timer_image, (timer_image.get_width() // 3, timer_image.get_height() // 3))
 
-        self.game.screen.blit(scaled_timer_image, (SCREEN_WIDTH - 120 + 1 * 50 * ASSETS_MULTIPLIER, 20))
+        self.game.screen.blit(scaled_timer_image, (SCREEN_WIDTH - 120 + 1 * 50, 20))
 
         time_per_sprite = LEVEL_TIME / len(self.timer_ui_sprite)
         elapsed_time = LEVEL_TIME - self.game.remaining_time
@@ -71,12 +71,12 @@ class Life:
             # textRect.center = (SCREEN_WIDTH/2 + SCREEN_OFFSET, 55)
             # textRect.center = (SCREEN_WIDTH/2 - SCREEN_OFFSET, 55)
         else:
-            textRect.center = (SCREEN_WIDTH - 120 + 1 * 50, 55 + 20)
+            textRect.center = (SCREEN_WIDTH - 150 + 1 * 50, 55)
 
         self.game.screen.blit(text, textRect)
 
     def draw(self):
-        self.game.screen.blit(pygame.transform.scale(self.frame, (self.frame_width/10, self.frame_height/10)), (SCREEN_WIDTH, 100 + 70 + 120))
+        self.game.screen.blit(pygame.transform.scale(self.frame, (self.frame_width/10, self.frame_height/10)), (SCREEN_WIDTH, 100 + 70))
         self.set_life()
         self.set_coin()
         self.set_time()

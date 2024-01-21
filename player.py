@@ -39,14 +39,18 @@ class Player:
         if not self.moving and time.time() - self.last_move_time >= self.cooldown_time:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT] or keys[pygame.K_a] or keys[pygame.K_q]:
-                self.target_x = max(0 + SCREEN_OFFSET, self.x - TILE_WIDTH)
+                self.target_x = max(0 + SCREEN_OFFSET, self.x - TILE_WIDTH + 50)
+                # self.target_x = max(0 + SCREEN_OFFSET, self.x - TILE_WIDTH)
                 self.moving = True
             elif keys[pygame.K_RIGHT] or keys[pygame.K_d] or keys[pygame.K_e]:
-                self.target_x = min(SCREEN_WIDTH - TILE_WIDTH + SCREEN_OFFSET, self.x + TILE_WIDTH)
+                # self.target_x = min(SCREEN_WIDTH - TILE_WIDTH + SCREEN_OFFSET, self.x + TILE_WIDTH)
+                self.target_x = min(SCREEN_WIDTH - TILE_WIDTH + SCREEN_OFFSET, self.x + TILE_WIDTH - 50)
                 self.moving = True
 
         if self.moving and time.time() - self.last_move_time >= self.cooldown_time:
             self.interpolate_movement()
+
+        # self.target_x = max(0 + SCREEN_OFFSET + 50, min(SCREEN_FULL_WIDTH - SCREEN_OFFSET - 50, self.target_x))
 
     def interpolate_movement(self):
         speed = 50
@@ -59,15 +63,15 @@ class Player:
             self.moving = False
 
     def get_rect(self):
-        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - (150 * ASSETS_MULTIPLIER), TILE_HEIGHT - 90)
-        colision.x += 75 * ASSETS_MULTIPLIER
+        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT - 90)
+        colision.x += 75
         colision.y += 50
         return colision
     
     def calculate_scaled_size(self):
         aspect_ratio = self.player_image.get_width() / self.player_image.get_height()
-        new_width = TILE_WIDTH * 0.8
-        new_height = int(TILE_WIDTH * 0.8 / aspect_ratio)
+        new_width = TILE_WIDTH
+        new_height = int(TILE_WIDTH / aspect_ratio)
         return new_width, new_height
 
     def draw(self):
@@ -89,13 +93,19 @@ class Player:
                     self.game.player_hurt = False
                     self.game.player_hurt_time = time.time()
 
-            self.game.screen.blit(pygame.transform.scale(current_sprite, scaled_size), (self.x, self.y - 100))
+            if self.x == 160:
+                self.game.screen.blit(pygame.transform.scale(current_sprite, scaled_size), (self.x + 50, self.y - 100))
+            elif self.x == 695.3333333333333:
+                self.game.screen.blit(pygame.transform.scale(current_sprite, scaled_size), (self.x - 50, self.y - 100))
+            else:
+                self.game.screen.blit(pygame.transform.scale(current_sprite, scaled_size), (self.x, self.y - 100))
 
         if time.time() - self.last_sprite_time >= 0.1:
             self.sprite_index = (self.sprite_index + 1) % len(self.images)
             self.last_sprite_time = time.time()
 
-        # pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
+        if DEBUG:
+            pygame.draw.rect(self.game.screen, (255, 0, 0), self.get_rect(), 2)
 
     def update(self):
         self.movement()

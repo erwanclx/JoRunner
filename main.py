@@ -12,10 +12,17 @@ class Menu:
         self.menu_height = 516
 
         pygame.init()
-        self.screen = pygame.display.set_mode((self.menu_width, self.menu_height))
+        # self.screen = pygame.display.set_mode((self.menu_width, self.menu_height))
+        # pygame.display.set_caption("JoRunner")
+        
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         pygame.display.set_caption("JoRunner")
+        self.menu_width, self.menu_height = pygame.display.get_surface().get_size()
+        self.scale_factor = self.screen.get_height() / (SCREEN_HEIGHT)
+
 
         self.menu_background = pygame.image.load('assets/menu/background.png')
+        
 
         self.banner = pygame.image.load('assets/menu/banner.png')
         self.banner_width = pygame.Surface.get_width(self.banner)
@@ -51,9 +58,19 @@ class Menu:
         if self.fade_alpha > 255:
             self.fade_alpha = 255
 
-        self.menu_background.set_alpha(self.fade_alpha)
+        aspect_ratio = self.menu_background.get_width() / self.menu_background.get_height()
+        new_width = int(self.menu_height * aspect_ratio)
+        new_height = self.menu_height
 
-        self.screen.blit(self.menu_background, (0, 0))
+        scaled_background = pygame.transform.scale(self.menu_background, (new_width, new_height))
+        scaled_background.set_alpha(self.fade_alpha)
+
+        x_offset = (self.menu_width - new_width) // 2
+        y_offset = (self.menu_height - new_height) // 2
+
+        self.screen.blit(scaled_background, (x_offset, y_offset))
+
+        self.menu_background.set_alpha(self.fade_alpha)
 
         scaled_play_button = pygame.transform.scale(self.play_button, (self.play_button_width // 2, self.play_button_height // 2))
         scaled_quit_button = pygame.transform.scale(self.quit_button, (self.quit_button_width // 2, self.play_button_height // 2))

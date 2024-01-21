@@ -15,14 +15,20 @@ from gameover import GameOver
 from pause import Pause
 from levelup import LevelUp
 from gamewin import GameWin
+from scale import *
+
+import os
 
 import time
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((SCREEN_OFFSET + SCREEN_WIDTH + SCREEN_OFFSET, SCREEN_HEIGHT))
-        pygame.display.set_caption("JoRunner")
+        # self.screen = pygame.display.set_mode((SCREEN_OFFSET + SCREEN_WIDTH + SCREEN_OFFSET, SCREEN_HEIGHT))
+        # pygame.display.set_caption("JoRunner")
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        # self.scale_factor = self.screen.get_width() / (SCREEN_OFFSET + SCREEN_WIDTH + SCREEN_OFFSET)
+        self.menu_width, self.menu_height = pygame.display.get_surface().get_size()
 
         # Frame count
 
@@ -48,7 +54,11 @@ class Game:
 
         # Sound
 
-        self.player_hit_sound = pygame.mixer.Sound('assets/sounds/hurt.mp3')
+        # self.player_hit_sound = pygame.mixer.Sound('assets/sounds/hurt.mp3')
+        exe_dir = sys._MEIPASS if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__))
+        hurt_sound_path = os.path.join(exe_dir, 'assets', 'sounds', 'hurt.mp3')
+        pygame.mixer.init()
+        self.player_hit_sound = pygame.mixer.Sound(hurt_sound_path)
 
         self.level_sound = pygame.mixer.Sound(f'assets/maps/{self.level}/music.mp3')
         self.level_sound.set_volume(0.1)
@@ -138,6 +148,22 @@ class Game:
         self.player.update()
 
         self.overlay.draw()
+
+        self.scale_factor = self.screen.get_height() / (SCREEN_HEIGHT)
+        scaled_screen = pygame.transform.scale(self.screen,
+                                           (int(self.screen.get_width() * self.scale_factor),
+                                            int(self.screen.get_height() * self.scale_factor)))
+        
+
+        self.screen.fill((255, 242, 204))
+
+        x_center = (self.menu_width - SCREEN_FULL_WIDTH * self.scale_factor) // 2
+        print(x_center)
+
+
+        self.screen.blit(scaled_screen, (x_center, 0))
+
+        pygame.display.flip()   
         
 
     def get_obstacle(self):
@@ -186,7 +212,7 @@ class Game:
 
             if not self.game_over:
 
-                print("Status: ", self.is_game_win)
+                # print("Status: ", self.is_game_win)
 
                 if self.pause:
                     self.pause_menu.draw()

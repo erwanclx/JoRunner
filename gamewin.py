@@ -7,10 +7,10 @@ class GameWin:
         self.game = game
         self.x = 0
         self.y = 0
-        self.width = SCREEN_WIDTH
-        self.height = SCREEN_HEIGHT
+        self.width = self.game.menu_width
+        self.height = self.game.menu_height
         self.image = pygame.image.load('assets/menu/game_win.png')
-        self.image = pygame.transform.scale(self.image, (SCREEN_FULL_WIDTH, SCREEN_HEIGHT))
+        self.image = pygame.transform.scale(self.image, (self.game.menu_width, self.game.menu_height))
 
         # self.game_win_sound = pygame.mixer.Sound('assets/sounds/win/background.mp3')
         # self.game_win_sound.set_volume(0.1)
@@ -19,8 +19,8 @@ class GameWin:
         self.quit_button_image = pygame.image.load('assets/menu/button/quit.png')
         self.quit_button_width = pygame.Surface.get_width(self.quit_button_image)
         self.quit_button_height = pygame.Surface.get_height(self.quit_button_image)
-        self.quit_button_x = (SCREEN_FULL_WIDTH - self.quit_button_width) // 2
-        self.quit_button_y = SCREEN_HEIGHT - self.quit_button_height - 50
+        self.quit_button_x = (self.game.menu_width - self.quit_button_width) // 2
+        self.quit_button_y = self.game.menu_height - self.quit_button_height - 50
 
 
     def draw(self):
