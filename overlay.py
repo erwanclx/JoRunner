@@ -1,6 +1,5 @@
 import pygame
 from settings import *
-
 class Overlay:
     def __init__(self, game):
         self.game = game
@@ -11,6 +10,9 @@ class Overlay:
         self.left_flag = Flag('left', self.game)
         self.right_flag = Flag('right', self.game)
 
+        self.left_button = Button(self.game, 'left')
+        self.right_button = Button(self.game, 'right')
+
     def draw(self):
         self.wall.draw()
 
@@ -19,6 +21,9 @@ class Overlay:
 
         self.left_flag.draw('left')
         self.right_flag.draw('right')
+
+        self.left_button.update()
+        self.right_button.update()
         
     def update(self):
         self.left_flame.flame_frame()
@@ -33,7 +38,7 @@ class Wall:
         self.texture = pygame.image.load('assets/frame.png')
 
         self.width = SCREEN_WIDTH
-        self.height = 40
+        self.height = 40 * ASSETS_MULTIPLIER
         self.x = SCREEN_OFFSET
         self.y = SCREEN_HEIGHT - self.height
 
@@ -43,7 +48,7 @@ class Wall:
         self.game.screen.blit(pygame.transform.scale(self.texture, (self.width, self.height)), (self.x, self.y))
         text = self.font.render(f'Level {self.game.level}', True, (52, 53, 65))
         textRect = text.get_rect()
-        textRect.center = (SCREEN_WIDTH/2 + SCREEN_OFFSET, SCREEN_HEIGHT - 20)
+        textRect.center = (SCREEN_WIDTH/2 + SCREEN_OFFSET, SCREEN_HEIGHT - 20 * ASSETS_MULTIPLIER)
         self.game.screen.blit(text, textRect)
 class Flame:
     def __init__(self, orientation, game):
@@ -103,6 +108,39 @@ class Flag:
     
     def draw(self, orientation):
         if orientation == 'left':
-            self.game.screen.blit(self.orientations[orientation], (SCREEN_OFFSET + 220, 100))
+            self.game.screen.blit(self.orientations[orientation], (SCREEN_OFFSET + 220 + 115, 100 * ASSETS_MULTIPLIER + 37))
         else:
-            self.game.screen.blit(self.orientations[orientation], (SCREEN_FULL_WIDTH - 455, 100))
+            self.game.screen.blit(self.orientations[orientation], (SCREEN_FULL_WIDTH - 455 - 280, 100 * ASSETS_MULTIPLIER + 37))
+
+
+class Button:
+    def __init__(self, game, orientation):
+        self.game = game
+        self.orientation = orientation
+        self.image = pygame.image.load(f'assets/arrows/{orientation}.png')
+        self.rect = self.image.get_rect()
+
+        self.switcher = {
+            'left': pygame.K_LEFT,
+            'right': pygame.K_RIGHT,
+        }
+
+        if orientation == 'left':
+            self.rect.center = (SCREEN_OFFSET + 240, SCREEN_HEIGHT - 90 * ASSETS_MULTIPLIER)
+        else:
+            self.rect.center = (SCREEN_FULL_WIDTH - SCREEN_OFFSET - 240, SCREEN_HEIGHT - 90 * ASSETS_MULTIPLIER)
+
+    def update(self):
+        self.game.screen.blit(self.image, self.rect)
+
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        click, _, _ = pygame.mouse.get_pressed()
+
+        # Check for keyboard events
+        keys = pygame.key.get_pressed()
+
+        # if click and self.rect.collidepoint(mouse_x, mouse_y):
+        #     if self.orientation == 'left':
+        #         pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_LEFT))
+        #     else:
+        #         pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RIGHT))
