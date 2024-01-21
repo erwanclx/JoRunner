@@ -10,7 +10,11 @@
 > ```
 > or via https://lecrabeinfo.net/installer-ffmpeg-sur-windows.html#manuellement
 
-## Before run
+## How-to run ?
+
+Download from release the last .exe and double-click on it.
+
+## Self-build and dev : Before run 
 
 ```bash
 $ pip3 install -r requirements.txt
