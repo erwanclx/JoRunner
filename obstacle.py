@@ -89,13 +89,13 @@ class Obstacle():
         for obstacle in self.game.obstacles:
             if obstacle != self:
                 if obstacle.get_rect().colliderect(self.get_rect()):
-                    print("Collision between Obstacle and Obstacle")
+                    # print("Collision between Obstacle and Obstacle")
                     self.game.obstacles.remove(obstacle)
         
 
         player_rect = self.game.player.get_rect()
         if player_rect.colliderect(self.get_rect()):
-            print("Collision between Player and Obstacle")
+            # print("Collision between Player and Obstacle")
             self.game.obstacles.remove(self)
             self.game.lives -= 1
             self.game.life = Life(self.game, self.game.lives)

@@ -48,7 +48,7 @@ class Pause:
                     mouse_x, mouse_y = pygame.mouse.get_pos()
 
                     if self.pause_play_x < mouse_x < self.pause_play_x + self.pause_play_width // 2 and self.pause_play_y < mouse_y < self.pause_play_y + self.pause_play_height // 2:
-                        print("Play")
+                        # print("Play")
                         self.play()
 
                     elif self.pause_quit_x < mouse_x < self.pause_quit_x + self.pause_quit_width // 2 and self.pause_quit_y < mouse_y < self.pause_quit_y + self.pause_quit_height // 2:

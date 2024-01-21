@@ -1,4 +1,6 @@
 import pygame
+import subprocess
+import webbrowser
 from game import Game
 from settings import *
 import sys
@@ -7,6 +9,7 @@ from utils import resource_path
 
 class Menu:
     def __init__(self):
+        
         self.game = Game()
 
         self.menu_width = 1000
@@ -87,6 +90,34 @@ class Menu:
 
         self.screen.blit(scaled_play_button, (self.play_button_x, self.play_button_y))
         self.screen.blit(scaled_quit_button, (self.quit_button_x, self.quit_button_y))
+
+        
+        try:
+            subprocess.run(['ffmpeg', '-version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        except:
+            error_font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 30)
+            error_text = error_font.render("FFmpeg n'est pas installé sur votre système. Veuillez l'installer pour exécuter ce jeu.", True, (255, 0, 0))
+            error_text_width = pygame.Surface.get_width(error_text)
+            error_text_height = pygame.Surface.get_height(error_text)
+            
+            banner_rect = pygame.Rect((self.menu_width - error_text_width - 20) // 2, (self.menu_height - error_text_height - 210), error_text_width + 20, error_text_height + 20)
+            pygame.draw.rect(self.screen, (255, 255, 255), banner_rect)
+            
+            self.screen.blit(error_text, ((self.menu_width - error_text_width) // 2, (self.menu_height - error_text_height - 200)))
+
+            button_rect = pygame.Rect((self.menu_width - 300) // 2, (self.menu_height - error_text_height - 115), 300, 50)
+            pygame.draw.rect(self.screen, (223, 69, 15), button_rect)
+            
+            button_font = pygame.font.Font(resource_path('assets/fonts/pixel.ttf'), 20)
+            button_text = button_font.render("Comment installer ?", True, (255, 255, 255))
+            button_text_width = pygame.Surface.get_width(button_text)
+            self.screen.blit(button_text, ((self.menu_width - button_text_width) // 2, (self.menu_height - error_text_height - 100)))
+
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if button_rect.collidepoint(mouse_x, mouse_y):
+                if pygame.mouse.get_pressed()[0]:
+                    webbrowser.open("https://github.com/erwanclx/JoRunner")
+                    sys.exit()
 
     def draw_banner(self):
         # title_font = pygame.font.Font('assets/fonts/pixel.ttf', 50)

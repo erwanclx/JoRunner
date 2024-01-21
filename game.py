@@ -100,7 +100,7 @@ class Game:
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN and event.key == K_ESCAPE:
-                print("Pause")
+                # print("Pause")
                 self.pause = not self.pause
                 if self.pause:
                     self.pause_menu = Pause(self)
@@ -156,7 +156,7 @@ class Game:
         self.screen.fill((255, 242, 204))
 
         x_center = (self.menu_width - SCREEN_FULL_WIDTH * self.scale_factor) // 2
-        print(x_center)
+        # print(x_center)
 
 
         self.screen.blit(scaled_screen, (x_center, 0))
@@ -171,13 +171,13 @@ class Game:
 
         if current_time % (max(4 - self.level, 1)) == 0:
             if current_time != self.last_time:
-                print("New obstacle")
+                # print("New obstacle")
                 obstacle = Obstacle(self, random.randint(0, 2), 0)
                 self.obstacles.append(obstacle)
 
         if current_time % 2 == 0:
             if current_time != self.last_time:
-                print("New collectible")
+                # print("New collectible")
                 collectible = Collectibles(self, random.randint(0, 2), 0)
                 self.collectibles.append(collectible)
 
@@ -210,7 +210,7 @@ class Game:
 
             if not self.game_over:
 
-                # print("Status: ", self.is_game_win)
+                # # print("Status: ", self.is_game_win)
 
                 if self.pause:
                     self.pause_menu.draw()

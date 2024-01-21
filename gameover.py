@@ -59,7 +59,7 @@ class GameOver:
                     mouse_x, mouse_y = pygame.mouse.get_pos()
 
                     if self.game_over_button_x < mouse_x < self.game_over_button_x + self.game_over_button_width // 2 and self.game_over_button_y < mouse_y < self.game_over_button_y + self.game_over_button_height // 2:
-                        print("Replay")
+                        # print("Replay")
                         self.replay()
 
         self.fade_alpha += 5 

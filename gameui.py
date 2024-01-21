@@ -47,7 +47,7 @@ class Life:
 
 
     def set_time(self):
-        # print(self.game.remaining_time)
+        # # print(self.game.remaining_time)
         timer_image_path = 'assets/time/' + self.timer_ui_sprite[self.timer_sprite_index]
         timer_image = pygame.image.load(resource_path(timer_image_path))
         scaled_timer_image = pygame.transform.scale(timer_image, (timer_image.get_width() // 3, timer_image.get_height() // 3))
