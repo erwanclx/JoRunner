@@ -54,11 +54,11 @@ class Game:
 
         # Sound
 
-        # self.player_hit_sound = pygame.mixer.Sound('assets/sounds/hurt.mp3')
-        exe_dir = sys._MEIPASS if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__))
-        hurt_sound_path = os.path.join(exe_dir, 'assets', 'sounds', 'hurt.mp3')
+        self.player_hit_sound = pygame.mixer.Sound('assets/sounds/hurt.mp3')
+        # exe_dir = sys._MEIPASS if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__))
+        # hurt_sound_path = os.path.join(exe_dir, 'assets', 'sounds', 'hurt.mp3')
         pygame.mixer.init()
-        self.player_hit_sound = pygame.mixer.Sound(hurt_sound_path)
+        # self.player_hit_sound = pygame.mixer.Sound(hurt_sound_path)
 
         self.level_sound = pygame.mixer.Sound(f'assets/maps/{self.level}/music.mp3')
         self.level_sound.set_volume(0.1)

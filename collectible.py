@@ -33,9 +33,10 @@ class Collectibles:
             sound.set_volume(0.2)
 
     def get_rect(self):
-        # return pygame.Rect(self.x, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
-        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT)
+        # colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, self.images['coin'].get_height() - 50)
+        colision = pygame.Rect(self.x, self.y, TILE_WIDTH - 150, TILE_HEIGHT - 50)
         colision.x += 150
+        colision.y += 25
         # colision.x += 75
         return colision
     
@@ -64,9 +65,9 @@ class Collectibles:
         adjusted_x = self.x + x_offset
 
         if self.x == 535.3333333333334 + SCREEN_OFFSET/2:
-            img_rect.topright = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2 - SCREEN_OFFSET - 100, self.y + TILE_HEIGHT / 2)
+            img_rect.topright = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2 - SCREEN_OFFSET - 100, self.y + TILE_HEIGHT / 2 - 50)
         elif self.x == 0.0 + SCREEN_OFFSET/2:
-            img_rect.topleft = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2, self.y + TILE_HEIGHT / 2)  # Adjusted for top right
+            img_rect.topleft = (adjusted_x + TILE_WIDTH + SCREEN_OFFSET / 2, self.y + TILE_HEIGHT / 2 - 50)
         else:
             tile_rect = pygame.Rect(self.x, self.y, TILE_WIDTH + SCREEN_OFFSET, TILE_HEIGHT)
             img_rect.center = tile_rect.center

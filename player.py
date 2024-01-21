@@ -39,12 +39,12 @@ class Player:
         if not self.moving and time.time() - self.last_move_time >= self.cooldown_time:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT] or keys[pygame.K_a] or keys[pygame.K_q]:
-                self.target_x = max(0 + SCREEN_OFFSET, self.x - TILE_WIDTH + 50)
+                self.target_x = max(SCREEN_OFFSET + 50, self.x - TILE_WIDTH + 50)
                 # self.target_x = max(0 + SCREEN_OFFSET, self.x - TILE_WIDTH)
                 self.moving = True
             elif keys[pygame.K_RIGHT] or keys[pygame.K_d] or keys[pygame.K_e]:
                 # self.target_x = min(SCREEN_WIDTH - TILE_WIDTH + SCREEN_OFFSET, self.x + TILE_WIDTH)
-                self.target_x = min(SCREEN_WIDTH - TILE_WIDTH + SCREEN_OFFSET, self.x + TILE_WIDTH - 50)
+                self.target_x = min(SCREEN_WIDTH - TILE_WIDTH + SCREEN_OFFSET - 50, self.x + TILE_WIDTH - 50)
                 self.moving = True
 
         if self.moving and time.time() - self.last_move_time >= self.cooldown_time:
